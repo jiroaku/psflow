@@ -15,7 +15,7 @@ $updateInterval = 7
 ############                                                                                                         ############
 ############                DO NOT MODIFY THIS FILE. THIS FILE IS HASHED AND UPDATED AUTOMATICALLY.                  ############
 ############                    ANY CHANGES MADE TO THIS FILE WILL BE OVERWRITTEN BY COMMITS TO                      ############
-############                       https://github.com/ChrisTitusTech/powershell-profile.git.                         ############
+############                       https://github.com/jiroaku/powershell-profile.git.                         ############
 ############                                                                                                         ############
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#
 ############                                                                                                         ############
@@ -58,7 +58,7 @@ if ($repo_root_Override){
     # then use it instead
     $repo_root = $repo_root_Override
 } else {
-    $repo_root = "https://raw.githubusercontent.com/ChrisTitusTech"
+    $repo_root = "https://raw.githubusercontent.com/jiroaku"
 }
 
 # Define the path to the file that stores the last execution time
@@ -319,7 +319,7 @@ function uptime {
         # find date/time format
         $dateFormat = [System.Globalization.CultureInfo]::CurrentCulture.DateTimeFormat.ShortDatePattern
         $timeFormat = [System.Globalization.CultureInfo]::CurrentCulture.DateTimeFormat.LongTimePattern
-		
+
         # check powershell version
         if ($PSVersionTable.PSVersion.Major -eq 5) {
             $lastBoot = (Get-WmiObject win32_operatingsystem).LastBootUpTime
@@ -329,7 +329,7 @@ function uptime {
             $lastBoot = $bootTime.ToString("$dateFormat $timeFormat")
         } else {
             # the Get-Uptime cmdlet was introduced in PowerShell 6.0
-            $lastBoot = (Get-Uptime -Since).ToString("$dateFormat $timeFormat")			
+            $lastBoot = (Get-Uptime -Since).ToString("$dateFormat $timeFormat")
             $bootTime = [System.DateTime]::ParseExact($lastBoot, "$dateFormat $timeFormat", [System.Globalization.CultureInfo]::InvariantCulture)
         }
 
@@ -368,16 +368,16 @@ function hb {
         Write-Error "No file path specified."
         return
     }
-    
+
     $FilePath = $args[0]
-    
+
     if (Test-Path $FilePath) {
         $Content = Get-Content $FilePath -Raw
     } else {
         Write-Error "File path does not exist."
         return
     }
-    
+
     $uri = "http://bin.christitus.com/documents"
     try {
         $response = Invoke-RestMethod -Uri $uri -Method Post -Body $Content -ErrorAction Stop
@@ -468,12 +468,12 @@ function trash($path) {
 ### Quality of Life Aliases
 
 # Navigation Shortcuts
-function docs { 
+function docs {
     $docs = if(([Environment]::GetFolderPath("MyDocuments"))) {([Environment]::GetFolderPath("MyDocuments"))} else {$HOME + "\Documents"}
     Set-Location -Path $docs
 }
-    
-function dtop { 
+
+function dtop {
     $dtop = if ([Environment]::GetFolderPath("Desktop")) {[Environment]::GetFolderPath("Desktop")} else {$HOME + "\Documents"}
     Set-Location -Path $dtop
 }
@@ -589,7 +589,7 @@ $scriptblock = {
         'npm' = @('install', 'start', 'run', 'test', 'build')
         'deno' = @('run', 'compile', 'bundle', 'test', 'lint', 'fmt', 'cache', 'info', 'doc', 'upgrade')
     }
-    
+
     $command = $commandAst.CommandElements[0].Value
     if ($customCompletions.ContainsKey($command)) {
         $customCompletions[$command] | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {
@@ -611,7 +611,7 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock $scriptblock
 if (Get-Command -Name "Get-Theme_Override" -ErrorAction SilentlyContinue){
     Get-Theme_Override;
 } else {
-    oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/cobalt2.omp.json | Invoke-Expression
+    oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/zash.omp.json | Invoke-Expression
 }
 
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
@@ -687,8 +687,8 @@ $($PSStyle.Foreground.Green)touch$($PSStyle.Reset) <file> - Creates a new empty 
 $($PSStyle.Foreground.Green)unzip$($PSStyle.Reset) <file> - Extracts a zip file to the current directory.
 $($PSStyle.Foreground.Green)uptime$($PSStyle.Reset) - Displays the system uptime.
 $($PSStyle.Foreground.Green)which$($PSStyle.Reset) <name> - Shows the path of the command.
-$($PSStyle.Foreground.Green)winutil$($PSStyle.Reset) - Runs the latest WinUtil full-release script from Chris Titus Tech.
-$($PSStyle.Foreground.Green)winutildev$($PSStyle.Reset) - Runs the latest WinUtil pre-release script from Chris Titus Tech.
+$($PSStyle.Foreground.Green)winutil$($PSStyle.Reset) - Runs the latest WinUtil full-release script from Chris Titus Tech (original creator).
+$($PSStyle.Foreground.Green)winutildev$($PSStyle.Reset) - Runs the latest WinUtil pre-release script from Chris Titus Tech (original creator).
 $($PSStyle.Foreground.Yellow)=======================$($PSStyle.Reset)
 
 Use '$($PSStyle.Foreground.Magenta)Show-Help$($PSStyle.Reset)' to display this help message.

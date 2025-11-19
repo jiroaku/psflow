@@ -19,8 +19,8 @@ function Test-InternetConnection {
 # Function to install Nerd Fonts
 function Install-NerdFonts {
     param (
-        [string]$FontName = "CascadiaCode",
-        [string]$FontDisplayName = "CaskaydiaCove NF",
+        [string]$FontName = "JetBrainsMono",
+        [string]$FontDisplayName = "JetBrainsMono Nerd Font",
         [string]$Version = "3.2.1"
     )
 
@@ -79,7 +79,7 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
             New-Item -Path $profilePath -ItemType "directory"
         }
 
-        Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
+        Invoke-RestMethod https://github.com/jiroaku/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
         Write-Host "The profile @ [$PROFILE] has been created."
         Write-Host "If you want to make any personal changes or customizations, please do so at [$profilePath\Profile.ps1] as there is an updater in the installed profile which uses the hash to update the profile and will lead to loss of changes"
     }
@@ -91,7 +91,7 @@ else {
     try {
         $backupPath = Join-Path (Split-Path $PROFILE) "oldprofile.ps1"
         Move-Item -Path $PROFILE -Destination $backupPath -Force
-        Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
+        Invoke-RestMethod https://github.com/jiroaku/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
         Write-Host "✅ PowerShell profile at [$PROFILE] has been updated."
         Write-Host "📦 Your old profile has been backed up to [$backupPath]"
         Write-Host "⚠️ NOTE: Please back up any persistent components of your old profile to [$HOME\Documents\PowerShell\Profile.ps1] as there is an updater in the installed profile which uses the hash to update the profile and will lead to loss of changes"
@@ -109,11 +109,12 @@ catch {
     Write-Error "Failed to install Oh My Posh. Error: $_"
 }
 
-# Font Install
-Install-NerdFonts -FontName "CascadiaCode" -FontDisplayName "CaskaydiaCove NF"
+# Font Install - Commented out to prevent automatic font download
+# Install-NerdFonts -FontName "JetBrainsMono" -FontDisplayName "JetBrainsMono Nerd Font"
+# To install a font manually, uncomment the line above or use: oh-my-posh font install
 
 # Final check and message to the user
-if ((Test-Path -Path $PROFILE) -and (winget list --name "OhMyPosh" -e) -and ($fontFamilies -contains "CaskaydiaCove NF")) {
+if ((Test-Path -Path $PROFILE) -and (winget list --name "OhMyPosh" -e)) {
     Write-Host "Setup completed successfully. Please restart your PowerShell session to apply changes."
 } else {
     Write-Warning "Setup completed with errors. Please check the error messages above."
