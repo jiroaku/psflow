@@ -136,9 +136,9 @@ function Update-Profile {
             $newhash = Get-FileHash "$env:temp/Microsoft.PowerShell_profile.ps1"
             if ($newhash.Hash -ne $oldhash.Hash) {
                 Copy-Item -Path "$env:temp/Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
-                Write-Host "Profile has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
+                # Write-Host "Profile has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
             } else {
-                Write-Host "Profile is up to date." -ForegroundColor Green
+                # Write-Host "Profile is up to date." -ForegroundColor Green
             }
         } catch {
             Write-Error "Unable to check for `$profile updates: $_"
@@ -159,7 +159,7 @@ if (-not $debug -and `
     $currentTime | Out-File -FilePath $timeFilePath
 
 } elseif ($debug) {
-    Write-Warning "Skipping profile update check in debug mode"
+    # Write-Warning "Skipping profile update check in debug mode"
 }
 
 function Update-PowerShell {
@@ -169,7 +169,7 @@ function Update-PowerShell {
         Update-PowerShell_Override;
     } else {
         try {
-            Write-Host "Checking for PowerShell updates..." -ForegroundColor Cyan
+            # Write-Host "Checking for PowerShell updates..." -ForegroundColor Cyan
             $updateNeeded = $false
             $currentVersion = $PSVersionTable.PSVersion.ToString()
             $gitHubApiUrl = "https://api.github.com/repos/PowerShell/PowerShell/releases/latest"
@@ -180,11 +180,11 @@ function Update-PowerShell {
             }
 
             if ($updateNeeded) {
-                Write-Host "Updating PowerShell..." -ForegroundColor Yellow
+                # Write-Host "Updating PowerShell..." -ForegroundColor Yellow
                 Start-Process powershell.exe -ArgumentList "-NoProfile -Command winget upgrade Microsoft.PowerShell --accept-source-agreements --accept-package-agreements" -Wait -NoNewWindow
-                Write-Host "PowerShell has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
+                # Write-Host "PowerShell has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
             } else {
-                Write-Host "Your PowerShell is up to date." -ForegroundColor Green
+                # Write-Host "Your PowerShell is up to date." -ForegroundColor Green
             }
         } catch {
             Write-Error "Failed to update PowerShell. Error: $_"
@@ -203,7 +203,7 @@ if (-not $debug -and `
     $currentTime = Get-Date -Format 'yyyy-MM-dd'
     $currentTime | Out-File -FilePath $timeFilePath
 } elseif ($debug) {
-    Write-Warning "Skipping PowerShell update in debug mode"
+    # Write-Warning "Skipping PowerShell update in debug mode"
 }
 
 function Clear-Cache {
@@ -700,4 +700,4 @@ if (Test-Path "$PSScriptRoot\CTTcustom.ps1") {
     Invoke-Expression -Command "& `"$PSScriptRoot\CTTcustom.ps1`""
 }
 
-Write-Host "$($PSStyle.Foreground.Yellow)Use 'Show-Help' to display help$($PSStyle.Reset)"
+# Write-Host "$($PSStyle.Foreground.Yellow)Use 'Show-Help' to display help$($PSStyle.Reset)"
