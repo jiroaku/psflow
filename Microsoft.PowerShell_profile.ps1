@@ -355,6 +355,20 @@ function uptime {
 }
 
 function reload-profile {
+    # Clear existing prompt function and oh-my-posh variables
+    if (Get-Command prompt -ErrorAction SilentlyContinue) {
+        Remove-Item Function:\prompt -Force -ErrorAction SilentlyContinue
+    }
+    Remove-Variable -Name "omp_*" -ErrorAction SilentlyContinue
+    # Clear oh-my-posh theme cache if it exists
+    $ompCachePath = "$env:POSH_THEMES_PATH"
+    if (-not $ompCachePath) {
+        $ompCachePath = "$env:LOCALAPPDATA\Programs\oh-my-posh\themes"
+    }
+    if (Test-Path $ompCachePath) {
+        Get-ChildItem -Path $ompCachePath -Filter "*.json" -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+    }
+    # Reload the profile
     & $profile
 }
 
